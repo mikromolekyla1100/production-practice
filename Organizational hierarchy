@@ -1,0 +1,44 @@
+graph TD
+    CEO[Начальник Департаменту кіберполіції]
+    
+    CEO --> DEP1[Заступник начальника<br/>з оперативної роботи]
+    CEO --> DEP2[Заступник начальника<br/>з слідчої роботи]
+    CEO --> DEP3[Заступник начальника<br/>з технічних питань]
+    
+    DEP1 --> OP1[Начальник оперативного<br/>відділу]
+    DEP1 --> OP2[Начальник відділу<br/>кіберрозвідки]
+    DEP1 --> OP3[Начальник відділу<br/>захисту критичної інфраструктури]
+    
+    DEP2 --> INV1[Начальник слідчого<br/>відділу]
+    DEP2 --> INV2[Начальник відділу<br/>цифрової криміналістики]
+    DEP2 --> INV3[Начальник відділу<br/>судової експертизи]
+    
+    DEP3 --> TECH1[Начальник технічного<br/>відділу]
+    DEP3 --> TECH2[Начальник відділу<br/>інформаційної безпеки]
+    DEP3 --> TECH3[Начальник відділу<br/>розробки ПЗ]
+    
+    OP1 --> TEAM1[Оперативники<br/>кіберзлочинності]
+    OP2 --> TEAM2[Спеціалісти<br/>кіберрозвідки]
+    OP3 --> TEAM3[Експерти<br/>захисту інфраструктури]
+    
+    INV1 --> TEAM4[Слідчі<br/>кіберзлочинів]
+    INV2 --> TEAM5[Експерти<br/>цифрової криміналістики]
+    INV3 --> TEAM6[Судові<br/>експерти]
+    
+    TECH1 --> TEAM7[Системні<br/>адміністратори]
+    TECH2 --> TEAM8[Спеціалісти<br/>з безпеки]
+    TECH3 --> TEAM9[Розробники<br/>ПЗ]
+    
+    style CEO fill:#ff6b6b,stroke:#333,stroke-width:3px
+    style DEP1 fill:#4ecdc4,stroke:#333,stroke-width:2px
+    style DEP2 fill:#45b7d1,stroke:#333,stroke-width:2px
+    style DEP3 fill:#96ceb4,stroke:#333,stroke-width:2px
+    style OP1 fill:#ffeaa7,stroke:#333,stroke-width:1px
+    style OP2 fill:#ffeaa7,stroke:#333,stroke-width:1px
+    style OP3 fill:#ffeaa7,stroke:#333,stroke-width:1px
+    style INV1 fill:#dda0dd,stroke:#333,stroke-width:1px
+    style INV2 fill:#dda0dd,stroke:#333,stroke-width:1px
+    style INV3 fill:#dda0dd,stroke:#333,stroke-width:1px
+    style TECH1 fill:#ffb3ba,stroke:#333,stroke-width:1px
+    style TECH2 fill:#ffb3ba,stroke:#333,stroke-width:1px
+    style TECH3 fill:#ffb3ba,stroke:#333,stroke-width:1px
