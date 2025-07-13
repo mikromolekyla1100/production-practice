@@ -1,0 +1,49 @@
+graph TD
+    CENTER[Центральний командний центр<br/>Кіберполіції]
+    
+    CENTER --> REGION1[Регіональний центр<br/>Київ]
+    CENTER --> REGION2[Регіональний центр<br/>Харків]
+    CENTER --> REGION3[Регіональний центр<br/>Одеса]
+    CENTER --> REGION4[Регіональний центр<br/>Львів]
+    CENTER --> REGION5[Регіональний центр<br/>Дніпро]
+    
+    CENTER --> SYSTEMS[Централізовані системи]
+    SYSTEMS --> DB[(База даних<br/>кіберзлочинів)]
+    SYSTEMS --> MONITOR[Система моніторингу<br/>загроз]
+    SYSTEMS --> ANALYTICS[Аналітична платформа]
+    SYSTEMS --> COMM[Система зв'язку]
+    
+    REGION1 --> LOCAL1[Місцеві підрозділи<br/>Київська область]
+    REGION2 --> LOCAL2[Місцеві підрозділи<br/>Харківська область]
+    REGION3 --> LOCAL3[Місцеві підрозділи<br/>Одеська область]
+    REGION4 --> LOCAL4[Місцеві підрозділи<br/>Львівська область]
+    REGION5 --> LOCAL5[Місцеві підрозділи<br/>Дніпропетровська область]
+    
+    CENTER --> EXTERNAL[Зовнішні партнери]
+    EXTERNAL --> GOVT[Державні органи]
+    EXTERNAL --> INTL[Міжнародні організації]
+    EXTERNAL --> PRIVATE[Приватний сектор]
+    
+    GOVT --> SBU[СБУ]
+    GOVT --> MIA[МВС]
+    GOVT --> DSNS[ДСНС]
+    
+    INTL --> EUROPOL[Europol]
+    INTL --> INTERPOL[Interpol]
+    INTL --> FBI[FBI]
+    
+    PRIVATE --> BANKS[Банки]
+    PRIVATE --> TELECOM[Телеком компанії]
+    PRIVATE --> IT[IT компанії]
+    
+    style CENTER fill:#ff6b6b,stroke:#333,stroke-width:4px
+    style SYSTEMS fill:#4ecdc4,stroke:#333,stroke-width:3px
+    style EXTERNAL fill:#45b7d1,stroke:#333,stroke-width:3px
+    style REGION1 fill:#96ceb4,stroke:#333,stroke-width:2px
+    style REGION2 fill:#96ceb4,stroke:#333,stroke-width:2px
+    style REGION3 fill:#96ceb4,stroke:#333,stroke-width:2px
+    style REGION4 fill:#96ceb4,stroke:#333,stroke-width:2px
+    style REGION5 fill:#96ceb4,stroke:#333,stroke-width:2px
+    style GOVT fill:#ffeaa7,stroke:#333,stroke-width:2px
+    style INTL fill:#dda0dd,stroke:#333,stroke-width:2px
+    style PRIVATE fill:#ffb3ba,stroke:#333,stroke-width:2px
