@@ -1,0 +1,33 @@
+graph TD
+    A[Департамент кіберполіції] --> B[Слідчий підрозділ]
+    A --> C[Оперативний підрозділ]
+    A --> D[Аналітичний підрозділ]
+    A --> E[Технічний підрозділ]
+    A --> F[Міжнародне співробітництво]
+    
+    B --> B1[Розслідування кіберзлочинів]
+    B --> B2[Збір цифрових доказів]
+    B --> B3[Судова експертиза]
+    
+    C --> C1[Кіберрозвідка]
+    C --> C2[Попередження загроз]
+    C --> C3[Захист критичної інфраструктури]
+    
+    D --> D1[Аналіз загроз]
+    D --> D2[Моніторинг мереж]
+    D --> D3[Прогнозування ризиків]
+    
+    E --> E1[Технічна підтримка]
+    E --> E2[Розробка ПЗ]
+    E --> E3[Кібербезпека]
+    
+    F --> F1[Europol]
+    F --> F2[Interpol]
+    F --> F3[Двостороннє співробітництво]
+    
+    style A fill:#ff6b6b,stroke:#333,stroke-width:3px
+    style B fill:#4ecdc4,stroke:#333,stroke-width:2px
+    style C fill:#45b7d1,stroke:#333,stroke-width:2px
+    style D fill:#96ceb4,stroke:#333,stroke-width:2px
+    style E fill:#ffeaa7,stroke:#333,stroke-width:2px
+    style F fill:#dda0dd,stroke:#333,stroke-width:2px
