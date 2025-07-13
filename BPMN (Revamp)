@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPMN Діаграма - Кіберполіція</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 15px;
+            background: #f4f9fc;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 95vw;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 2px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+        
+        .bpmn-container {
+            background: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        
+        .bpmn-diagram {
+            width: 1400px;
+            height: 600px;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        /* Swimlanes */
+        .swimlane {
+            position: absolute;
+            border: 1px solid #9ca3af;
+            background: linear-gradient(to bottom, rgba(52, 189, 248, 0), rgba(52, 189, 248, 0.08));
+        }
+        
+        .swimlane-header {
+            width: 25px;
+            background: #1e40af;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+            padding: 6px;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px 0 0 6px;
+        }
+        
+        /* BPMN Elements */
+        .start-event {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #15803d;
+            border-radius: 50%;
+            background: #22c55e;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .start-event:hover {
+            transform: scale(1.1);
+        }
+        
+        .end-event {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 4px solid #b91c1c;
+            border-radius: 50%;
+            background: #dc2626;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .end-event:hover {
+            transform: scale(1.1);
+        }
+        
+        .task {
+            position: absolute;
+            background: #f3f4f6;
+            border: 2px solid #1e40af;
+            border-radius: 6px;
+            padding: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 90px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .task:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .gateway {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #f59e0b;
+            border: 2px solid #d97706;
+            transform: rotate(45deg);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .gateway:hover {
+            transform: rotate(45deg) scale(1.1);
+        }
+        
+        .gateway-symbol {
+            transform: rotate(-45deg);
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .intermediate-event {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #f59e0b;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .intermediate-event:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Sequence Flows */
+        .sequence-flow {
+            position: absolute;
+            border-top: 2px solid #1e293b;
+            z-index: 1;
+        }
+        
+        .sequence-flow::after {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #1e293b;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+        
+        .sequence-flow-vertical {
+            position: absolute;
+            border-left: 2px solid #1e293b;
+            z-index: 1;
+        }
+        
+        .sequence-flow-vertical::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: -4px;
+            width: 0;
+            height: 0;
+            border-top: 8px solid #1e293b;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+        }
+        
+        .sequence-flow-no {
+            border-color: #dc2626;
+        }
+        
+        .sequence-flow-no::after {
+            border-left-color: #dc2626;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+        }
+        
+        .sequence-flow-yes {
+            border-color: #16a34a;
+        }
+        
+        .sequence-flow-yes::after {
+            border-left-color: #16a34a;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+        }
+        
+        .sequence-flow-vertical.sequence-flow-no::after {
+            border-top-color: #dc2626;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+        
+        .sequence-flow-vertical.sequence-flow-yes::after {
+            border-top-color: #16a34a;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+        
+        /* Labels */
+        .element-label {
+            position: absolute;
+            font-size: 11px;
+            color: #1e293b;
+            font-weight: 500;
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            padding: 2px 5px;
+            border-radius: 3px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        
+        .flow-label {
+            position: absolute;
+            font-size: 11px;
+            color: #1e293b;
+            font-weight: bold;
+            background: rgba(255,255,255,0.9);
+            padding: 2px 4px;
+            border-radius: 3px;
+            z-index: 10;
+        }
+        
+        .flow-label.no {
+            color: #dc2626;
+        }
+        
+        .flow-label.yes {
+            color: #16a34a;
+        }
+        
+        .legend {
+            margin-bottom: 10px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+        }
+        
+        .legend h4 {
+            margin: 0 0 8px;
+            color: #1e293b;
+            font-size: 1em;
+        }
+        
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #1e293b;
+        }
+        
+        .legend-symbol {
+            width: 20px;
+            height: 12px;
+            border-radius: 3px;
+            border: 2px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .legend-symbol.start {
+            border-radius: 50%;
+            background: #22c55e;
+            border-color: #15803d;
+        }
+        
+        .legend-symbol.end {
+            border-radius: 50%;
+            background: #dc2626;
+            border-color: #b91c1c;
+            border-width: 3px;
+        }
+        
+        .legend-symbol.task {
+            background: #f3f4f6;
+            border-color: #1e40af;
+        }
+        
+        .legend-symbol.gateway {
+            background: #f59e0b;
+            border-color: #d97706;
+            transform: rotate(45deg);
+            width: 14px;
+            height: 14px;
+        }
+        
+        .legend-symbol.intermediate {
+            border-radius: 6px;
+            background: white;
+            border-color: #f59e0b;
+        }
+        
+        .description {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 13px;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .description h4 {
+            margin: 0 0 10px;
+            font-size: 1.1em;
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Бізнес-процес Кіберполіції</h1>
+        <p class="subtitle">BPMN модель обробки кіберзлочинів та розслідування</p>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <h4>Легенда</h4>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-symbol start"></div>
+                    <span>Початкова подія</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-symbol end"></div>
+                    <span>Кінцева подія</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-symbol task"></div>
+                    <span>Завдання</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-symbol gateway"></div>
+                    <span>Шлюз (Рішення)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-symbol intermediate"></div>
+                    <span>Проміжна подія</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bpmn-container">
+            <div class="bpmn-diagram">
+                <!-- Pools and Swimlanes -->
+                <div class="swimlane" style="left:0;top:0;width:1400px;height:80px;">
+                    <div class="swimlane-header" style="left:0;top:0;height:80px;">Заявник</div>
+                </div>
+                <div class="swimlane" style="left:0;top:80px;width:1400px;height:100px;">
+                    <div class="swimlane-header" style="left:0;top:0;height:100px;">Чергова частина</div>
+                </div>
+                <div class="swimlane" style="left:0;top:180px;width:1400px;height:80px;">
+                    <div class="swimlane-header" style="left:0;top:0;height:80px;">Старший слідчий</div>
+                </div>
+                <div class="swimlane" style="left:0;top:260px;width:1400px;height:100px;">
+                    <div class="swimlane-header" style="left:0;top:0;height:100px;">Слідчі</div>
+                </div>
+                <div class="swimlane" style="left:0;top:360px;width:1400px;height:80px;">
+                    <div class="swimlane-header" style="left:0;top:0;height:80px;">Керівник тех.відділу</div>
+                </div>
+                <div class="swimlane" style="left:0;top:440px;width:1400px;height:100px;">
+                    <div class="swimlane-header" style="left:0;top:0;height:100px;">Технічні експерти</div>
+                </div>
+                <div class="swimlane" style="left:0;top:540px;width:1400px;height:80px;">
+                    <div class="swimlane-header" style="left:0;top:0;height:80px;">Прокуратура</div>
+                </div>
+                <div class="swimlane" style="left:0;top:620px;width:1400px;height:80px;">
+                    <div class="swimlane-header" style="left:0;top:0;height:80px;">Керівництво/Зв'язки/Архів</div>
+                </div>
+                
+                <!-- Заявник Lane -->
+                <div class="start-event" style="left:50px;top:25px;"></div>
+                <div class="element-label" style="left:30px;top:60px;">Заява про злочин</div>
+                <div class="task" style="left:110px;top:17px;">Подати заяву</div>
+                <div class="end-event" style="left:1300px;top:25px;"></div>
+                <div class="element-label" style="left:1280px;top:60px;">Отримано відповідь</div>
+                
+                <!-- Чергова частина Lane -->
+                <div class="start-event" style="left:50px;top:110px;"></div>
+                <div class="element-label" style="left:30px;top:145px;">Отримано заяву</div>
+                <div class="task" style="left:110px;top:105px;">Прийняти заяву</div>
+                <div class="gateway" style="left:220px;top:110px;">
+                    <div class="gateway-symbol">?</div>
+                </div>
+                <div class="element-label" style="left:200px;top:145px;">Заява прийнята?</div>
+                <div class="task" style="left:280px;top:105px;">Відмова заявнику</div>
+                <div class="end-event" style="left:390px;top:110px;"></div>
+                <div class="element-label" style="left:370px;top:145px;">Відмова</div>
+                <div class="task" style="left:280px;top:155px;">Призначити слідчого</div>
+                <div class="task" style="left:390px;top:155px;">Передати справу</div>
+                <div class="intermediate-event" style="left:500px;top:110px;">⏰</div>
+                <div class="element-label" style="left:480px;top:145px;">Справа зареєстрована</div>
+                
+                <!-- Старший слідчий Lane -->
+                <div class="task" style="left:500px;top:185px;">Планування розслідування</div>
+                <div class="task" style="left:610px;top:185px;">Передати експертам</div>
+                
+                <!-- Слідчі Lane -->
+                <div class="task" style="left:500px;top:265px;">Отримано справу</div>
+                <div class="task" style="left:610px;top:265px;">Збір доказів</div>
+                <div class="task" style="left:720px;top:265px;">Допит свідків</div>
+                <div class="task" style="left:830px;top:265px;">Експертиза</div>
+                <div class="task" style="left:940px;top:265px;">Складання протоколу</div>
+                <div class="gateway" style="left:1050px;top:270px;">
+                    <div class="gateway-symbol">?</div>
+                </div>
+                <div class="element-label" style="left:1030px;top:305px;">Достатньо доказів?</div>
+                <div class="task" style="left:1050px;top:325px;">Додаткове розслідування</div>
+                <div class="task" style="left:1160px;top:265px;">Завершення слідства</div>
+                
+                <!-- Керівник тех.відділу Lane -->
+                <div class="task" style="left:720px;top:365px;">Координація експертизи</div>
+                
+                <!-- Технічні експерти Lane -->
+                <div class="task" style="left:720px;top:445px;">Отримано матеріали</div>
+                <div class="task" style="left:830px;top:445px;">Тех. аналіз</div>
+                <div class="task" style="left:940px;top:445px;">Дослідження</div>
+                <div class="task" style="left:1050px;top:445px;">Передача висновків</div>
+                <div class="task" style="left:1160px;top:445px;">Завершення експертизи</div>
+                
+                <!-- Прокуратура Lane -->
+                <div class="task" style="left:830px;top:545px;">Перевірка справи</div>
+                <div class="task" style="left:940px;top:545px;">Складання обвинувачення</div>
+                <div class="task" style="left:1050px;top:545px;">Передача до суду</div>
+                <div class="intermediate-event" style="left:1160px;top:545px;">⏰</div>
+                <div class="element-label" style="left:1140px;top:580px;">Справа в суді</div>
+                
+                <!-- Керівництво/Зв'язки/Архів Lane -->
+                <div class="task" style="left:830px;top:625px;">Управління ресурсами</div>
+                <div class="task" style="left:940px;top:625px;">Звіти та статистика</div>
+                <div class="task" style="left:1050px;top:625px;">Архівування</div>
+                <div class="task" style="left:1160px;top:625px;">Звітування керівництву</div>
+                
+                <!-- Sequence Flows - Заявник Lane -->
+                <div class="sequence-flow" style="left:80px;top:40px;width:30px;"></div>
+                <div class="sequence-flow" style="left:200px;top:40px;width:1100px;"></div>
+                
+                <!-- Sequence Flows - Чергова частина Lane -->
+                <div class="sequence-flow" style="left:80px;top:125px;width:30px;"></div>
+                <div class="sequence-flow" style="left:200px;top:125px;width:20px;"></div>
+                <div class="sequence-flow sequence-flow-no" style="left:250px;top:125px;width:30px;">
+                    <div class="flow-label no" style="left:255px;top:110px;">Ні</div>
+                </div>
+                <div class="sequence-flow" style="left:370px;top:125px;width:20px;"></div>
+                <div class="sequence-flow-vertical sequence-flow-yes" style="left:235px;top:125px;height:30px;">
+                    <div class="flow-label yes" style="left:240px;top:135px;">Так</div>
+                </div>
+                <div class="sequence-flow" style="left:235px;top:155px;width:45px;"></div>
+                <div class="sequence-flow" style="left:480px;top:155px;width:20px;"></div>
+                <div class="sequence-flow-vertical" style="left:445px;top:125px;height:60px;"></div>
+                <div class="sequence-flow" style="left:445px;top:185px;width:55px;"></div>
+                
+                <!-- Sequence Flows - Старший слідчий Lane -->
+                <div class="sequence-flow" style="left:590px;top:200px;width:20px;"></div>
+                <div class="sequence-flow-vertical" style="left:670px;top:200px;height:165px;"></div>
+                <div class="sequence-flow" style="left:670px;top:365px;width:50px;"></div>
+                
+                <!-- Sequence Flows - Слідчі Lane -->
+                <div class="sequence-flow" style="left:590px;top:280px;width:20px;"></div>
+                <div class="sequence-flow" style="left:700px;top:280px;width:20px;"></div>
+                <div class="sequence-flow" style="left:810px;top:280px;width:20px;"></div>
+                <div class="sequence-flow" style="left:920px;top:280px;width:20px;"></div>
+                <div class="sequence-flow sequence-flow-yes" style="left:1080px;top:280px;width:80px;">
+                    <div class="flow-label yes" style="left:1085px;top:265px;">Так</div>
+                </div>
+                <div class="sequence-flow-vertical sequence-flow-no" style="left:1065px;top:280px;height:45px;">
+                    <div class="flow-label no" style="left:1070px;top:295px;">Ні</div>
+                </div>
+                <div class="sequence-flow" style="left:1065px;top:325px;width:-125px;"></div>
+                
+                <!-- Sequence Flows - Технічні експерти Lane -->
+                <div class="sequence-flow" style="left:810px;top:460px;width:20px;"></div>
+                <div class="sequence-flow" style="left:920px;top:460px;width:20px;"></div>
+                <div class="sequence-flow" style="left:1030px;top:460px;width:20px;"></div>
+                <div class="sequence-flow" style="left:1140px;top:460px;width:20px;"></div>
+                <div class="sequence-flow-vertical" style="left:1100px;top:280px;height:180px;"></div>
+                <div class="sequence-flow" style="left:1100px;top:460px;width:-50px;"></div>
+                
+                <!-- Sequence Flows - Прокуратура Lane -->
+                <div class="sequence-flow" style="left:920px;top:560px;width:20px;"></div>
+                <div class="sequence-flow" style="left:1030px;top:560px;width:20px;"></div>
+                <div class="sequence-flow" style="left:1140px;top:560px;width:20px;"></div>
+                
+                <!-- Sequence Flows - Керівництво/Зв'язки/Архів Lane -->
+                <div class="sequence-flow" style="left:920px;top:640px;width:20px;"></div>
+                <div class="sequence-flow" style="left:1030px;top:640px;width:20px;"></div>
+                <div class="sequence-flow" style="left:1140px;top:640px;width:20px;"></div>
+                
+                <!-- Cross-Lane Flows -->
+                <div class="sequence-flow-vertical" style="left:155px;top:40px;height:85px;"></div>
+                <div class="sequence-flow" style="left:155px;top:125px;width:45px;"></div>
+                <div class="sequence-flow-vertical" style="left:445px;top:155px;height:30px;"></div>
+                <div class="sequence-flow" style="left:445px;top:185px;width:55px;"></div>
+                <div class="sequence-flow-vertical" style="left:1225px;top:280px;height:-240px;"></div>
+                <div class="sequence-flow" style="left:1225px;top:40px;width:75px;"></div>
+            </div>
+        </div>
+        
+        <!-- Description -->
+        <div class="description">
+            <h4>Опис BPMN діаграми</h4>
+            <p>Ця діаграма моделює бізнес-процес Кіберполіції з обробки заяв про кіберзлочини та проведення розслідувань, забезпечуючи чіткість і зрозумілість правоохоронної діяльності.</p>
+            <p><strong>Структура:</strong> 8 пулів (Заявник, Чергова частина, Старший слідчий, Слідчі, Керівник тех.відділу, Технічні експерти, Прокуратура, Керівництво/Зв'язки/Архів) та 37 об'єктів: 4 початкові події, 2 кінцеві, 2 проміжні, 29 завдань, 2 шлюзи.</p>
+            <p><strong>Логіка:</strong> Заявник подає заяву про кіберзлочин, яку оцінює чергова частина. Прийнята заява передається слідчим для розслідування, збору доказів та експертизи. Технічні експерти проводять аналіз та дослідження. Прокуратура та Керівництво працюють паралельно для забезпечення якісного розслідування.</p>
+            <p><strong>BPMN 2.0:</strong> Відповідає стандартам із чіткими позначеннями та кольоровим кодуванням ("Так" — зелений, "Ні" — червоний).</p>
+            <p><strong>Візуалізація:</strong> Компактна, із чіткими стрілками, шрифтами та адаптивним дизайном для правоохоронної діяльності.</p>
+        </div>
+    </div>
+</body>
+</html>
