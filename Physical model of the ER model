@@ -1,0 +1,244 @@
+erDiagram    
+    Security_Company {
+        INT company_id PK "IDENTITY(1,1)"
+        NVARCHAR_255 company_name "NOT NULL"
+        NVARCHAR_100 legal_status "NOT NULL DEFAULT 'ТОВ'"
+        DATE creation_date "NOT NULL"
+        BIT is_certified "NOT NULL DEFAULT 1"
+        INT cybersecurity_specialist_count "NOT NULL DEFAULT 0"
+        DECIMAL_15_2 annual_budget "DEFAULT 0"
+        DECIMAL_15_2 incident_response_fund "DEFAULT 0"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Cyber_Department {
+        INT department_id PK "IDENTITY(1,1)"
+        NVARCHAR_100 department_name "NOT NULL"
+        NVARCHAR_50 function_area "NOT NULL CHECK IN ('SOC', 'Audit', 'Forensics', 'GRC')"
+        INT specialist_count "NOT NULL DEFAULT 0"
+        INT company_id FK "NOT NULL"
+        INT lead_specialist_id FK "NULL"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Specialist {
+        INT specialist_id PK "IDENTITY(1,1)"
+        NVARCHAR_100 first_name "NOT NULL"
+        NVARCHAR_100 last_name "NOT NULL"
+        NVARCHAR_100 role "NOT NULL"
+        INT department_id FK "NOT NULL"
+        DATE hire_date "NOT NULL"
+        DECIMAL_10_2 salary "NULL"
+        NVARCHAR_50 employment_type "NOT NULL DEFAULT 'Контракт'"
+        NVARCHAR_20 cert_level "CHECK IN ('CompTIA', 'CEH', 'CISSP', 'OSCP', 'None')"
+        INT experience_years "DEFAULT 0"
+        BIT is_active "NOT NULL DEFAULT 1"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Client {
+        INT client_id PK "IDENTITY(1,1)"
+        NVARCHAR_255 organization_name "NOT NULL"
+        NVARCHAR_100 sector "NULL"
+        NVARCHAR_100 country "NOT NULL"
+        NVARCHAR_255 contact_person "NULL"
+        NVARCHAR_255 email "NULL"
+        NVARCHAR_50 phone "NULL"
+        NVARCHAR_50 organization_size "CHECK IN ('Малий', 'Середній', 'Великий', 'Enterprise')"
+        BIT is_active "NOT NULL DEFAULT 1"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Incident {
+        INT incident_id PK "IDENTITY(1,1)"
+        NVARCHAR_255 incident_title "NOT NULL"
+        INT client_id FK "NOT NULL"
+        DATE detection_date "NOT NULL"
+        DATE resolution_date "NULL"
+        NVARCHAR_50 severity "CHECK IN ('Низька', 'Середня', 'Висока', 'Критична')"
+        DECIMAL_15_2 cost "NULL"
+        NVARCHAR_100 incident_type "NOT NULL"
+        NVARCHAR_100 region "NULL"
+        NTEXT description "NULL"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Security_Service {
+        INT service_id PK "IDENTITY(1,1)"
+        NVARCHAR_255 service_name "NOT NULL"
+        NVARCHAR_100 category "NOT NULL CHECK IN ('Аналіз вразливостей', 'Тест на проникнення', 'Мережевий моніторинг', 'Консалтинг')"
+        NTEXT description "NULL"
+        DECIMAL_10_2 base_price "NULL"
+        INT estimated_duration_hours "NULL"
+        BIT is_active "NOT NULL DEFAULT 1"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Response_Contract {
+        INT contract_id PK "IDENTITY(1,1)"
+        NVARCHAR_100 contract_code "NOT NULL UNIQUE"
+        INT client_id FK "NOT NULL"
+        DATE start_date "NOT NULL"
+        DATE end_date "NULL"
+        DECIMAL_15_2 contract_value "NOT NULL"
+        NVARCHAR_50 contract_model "NOT NULL CHECK IN ('Фіксована', 'Гнучка', 'On-Demand')"
+        NVARCHAR_50 status "NOT NULL DEFAULT 'Активний' CHECK IN ('Активний', 'Архівований', 'Розірваний')"
+        NVARCHAR_10 currency "NOT NULL DEFAULT 'USD'"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Threat_License {
+        INT license_id PK "IDENTITY(1,1)"
+        NVARCHAR_100 license_type "NOT NULL"
+        NVARCHAR_255 system_id "NULL"
+        DECIMAL_10_2 cost "NOT NULL"
+        INT validity_period "NOT NULL"
+        INT incident_id FK "NOT NULL"
+        DATE purchase_date "NOT NULL"
+        DATE expiry_date "NOT NULL"
+        BIT is_active "NOT NULL DEFAULT 1"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Security_Tool {
+        INT tool_id PK "IDENTITY(1,1)"
+        NVARCHAR_255 tool_name "NOT NULL"
+        NVARCHAR_255 vendor_id "NULL"
+        NVARCHAR_50 version "NOT NULL"
+        DATE deployment_date "NOT NULL"
+        INT usage_count "DEFAULT 0"
+        DECIMAL_3_2 rating "CHECK (rating >= 0 AND rating <= 5)"
+        NTEXT description "NULL"
+        DECIMAL_10_2 price "NULL"
+        BIT is_active "NOT NULL DEFAULT 1"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Training {
+        INT training_id PK "IDENTITY(1,1)"
+        NVARCHAR_255 topic "NOT NULL"
+        INT duration_hours "NOT NULL"
+        INT participants_count "NOT NULL"
+        INT trainer_id FK "NOT NULL"
+        DATE training_date "NOT NULL"
+        INT client_id FK "NOT NULL"
+        NVARCHAR_100 format "CHECK IN ('Онлайн', 'Офлайн', 'Гібрид')"
+        DECIMAL_10_2 cost "NULL"
+        NVARCHAR_50 status "DEFAULT 'Заплановано' CHECK IN ('Заплановано', 'Проведено', 'Скасовано')"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Security_Server {
+        INT server_id PK "IDENTITY(1,1)"
+        NVARCHAR_100 purpose "NOT NULL CHECK IN ('Моніторинг', 'Аналіз', 'Зберігання даних')"
+        NVARCHAR_100 provider "NOT NULL CHECK IN ('Azure', 'AWS', 'Google Cloud')"
+        NVARCHAR_500 specs "NULL"
+        DECIMAL_10_2 monthly_cost "NOT NULL"
+        INT incident_id FK "NOT NULL"
+        DATE setup_date "NOT NULL"
+        BIT is_active "NOT NULL DEFAULT 1"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Incident_Report {
+        INT report_id PK "IDENTITY(1,1)"
+        NVARCHAR_100 report_type "NOT NULL CHECK IN ('Огляд', 'Фінансовий', 'Технічний', 'Формальний')"
+        NVARCHAR_255 report_title "NOT NULL"
+        DATE creation_date "NOT NULL"
+        INT author_id FK "NOT NULL"
+        INT incident_id FK "NULL"
+        NTEXT content "NULL"
+        NVARCHAR_500 file_path "NULL"
+        BIT is_confidential "NOT NULL DEFAULT 0"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Incident_Specialist {
+        INT incident_specialist_id PK "IDENTITY(1,1)"
+        INT incident_id FK "NOT NULL"
+        INT specialist_id FK "NOT NULL"
+        INT hours_allocated "NOT NULL"
+        NVARCHAR_100 role "NOT NULL"
+        DATE start_date "NOT NULL"
+        DATE end_date "NULL"
+        DECIMAL_10_2 hourly_rate "NULL"
+        BIT is_active "NOT NULL DEFAULT 1"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Incident_Service {
+        INT incident_service_id PK "IDENTITY(1,1)"
+        INT incident_id FK "NOT NULL"
+        INT service_id FK "NOT NULL"
+        INT quantity "NOT NULL DEFAULT 1"
+        DECIMAL_10_2 unit_price "NOT NULL"
+        DECIMAL_10_2 total_price "NOT NULL"
+        DATE delivery_date "NULL"
+        NVARCHAR_50 status "DEFAULT 'Заплановано' CHECK IN ('Заплановано', 'Виконується', 'Завершено', 'Скасовано')"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Contract_Service {
+        INT contract_service_id PK "IDENTITY(1,1)"
+        INT contract_id FK "NOT NULL"
+        INT service_id FK "NOT NULL"
+        INT quantity "NOT NULL DEFAULT 1"
+        DECIMAL_10_2 unit_price "NOT NULL"
+        DECIMAL_10_2 total_price "NOT NULL"
+        NVARCHAR_500 delivery_terms "NULL"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    Incident_Tool {
+        INT incident_tool_id PK "IDENTITY(1,1)"
+        INT incident_id FK "NOT NULL"
+        INT tool_id FK "NOT NULL"
+        DATE implementation_date "NOT NULL"
+        NVARCHAR_50 configuration_level "CHECK IN ('Базовий', 'Середній', 'Повний')"
+        BIT is_customized "NOT NULL DEFAULT 0"
+        DATETIME2 created_at "DEFAULT GETDATE()"
+        DATETIME2 updated_at "DEFAULT GETDATE()"
+    }
+
+    %% Фізичні зв’язки
+    Security_Company ||--o{ Cyber_Department : "company_id"
+    Cyber_Department ||--o{ Specialist : "department_id"
+    Specialist ||--o| Cyber_Department : "lead_specialist_id"
+    
+    Client ||--o{ Incident : "client_id"
+    Client ||--o{ Response_Contract : "client_id"
+    Client ||--o{ Training : "client_id"
+    
+    Incident ||--o{ Threat_License : "incident_id"
+    Incident ||--o{ Security_Server : "incident_id"
+    Incident ||--o{ Incident_Report : "incident_id"
+    
+    Specialist ||--o{ Training : "trainer_id"
+    Specialist ||--o{ Incident_Report : "author_id"
+    
+    Incident ||--o{ Incident_Specialist : "incident_id"
+    Specialist ||--o{ Incident_Specialist : "specialist_id"
+    
+    Incident ||--o{ Incident_Service : "incident_id"
+    Security_Service ||--o{ Incident_Service : "service_id"
+    
+    Response_Contract ||--o{ Contract_Service : "contract_id"
+    Security_Service ||--o{ Contract_Service : "service_id"
+    
+    Incident ||--o{ Incident_Tool : "incident_id"
+    Security_Tool ||--o{ Incident_Tool : "tool_id"
