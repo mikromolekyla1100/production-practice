@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Діаграма прецедентів Clarity Ukraine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .legend {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #495057;
+            font-size: 16px;
+        }
+        .legend-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .client-color { background: #2196F3; }
+        .consultant-color { background: #4CAF50; }
+        .developer-color { background: #F44336; }
+        .microsoft-color { background: #9C27B0; }
+        .admin-color { background: #FF9800; }
+        
+        svg {
+            width: 100%;
+            height: 700px;
+            border: 2px dashed #999;
+            border-radius: 5px;
+            background: white;
+        }
+        
+        .actor {
+            stroke-width: 2;
+            fill: none;
+        }
+        .actor.client { stroke: #2196F3; }
+        .actor.consultant { stroke: #4CAF50; }
+        .actor.developer { stroke: #F44336; }
+        .actor.microsoft { stroke: #9C27B0; }
+        .actor.admin { stroke: #FF9800; }
+        
+        .usecase {
+            fill: #f0f0f0;
+            stroke: #666;
+            stroke-width: 1;
+        }
+        
+        .system-boundary {
+            fill: none;
+            stroke: #333;
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+        }
+        
+        .text {
+            font-size: 11px;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            fill: #333;
+        }
+        
+        .actor-text {
+            font-size: 12px;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+        .actor-text.client { fill: #2196F3; }
+        .actor-text.consultant { fill: #4CAF50; }
+        .actor-text.developer { fill: #F44336; }
+        .actor-text.microsoft { fill: #9C27B0; }
+        .actor-text.admin { fill: #FF9800; }
+        
+        .title-text {
+            font-size: 14px;
+            font-weight: bold;
+            fill: #333;
+            text-anchor: middle;
+        }
+        
+        .connection {
+            stroke-width: 1.5;
+            fill: none;
+        }
+        .connection.client { stroke: #2196F3; }
+        .connection.consultant { stroke: #4CAF50; }
+        .connection.developer { stroke: #F44336; }
+        .connection.microsoft { stroke: #9C27B0; }
+        .connection.admin { stroke: #FF9800; }
+        
+        .stick-figure {
+            stroke-width: 2;
+            fill: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Діаграма прецедентів - Clarity Ukraine</h1>
+        <p class="subtitle">Система ERP-консалтингу Clarity Ukraine</p>
+
+        <svg viewBox="0 0 1300 650">
+            <!-- Межі системи -->
+            <rect x="200" y="50" width="900" height="500" class="system-boundary"/>
+            <text x="650" y="35" class="title-text">Система ERP-консалтингу Clarity Ukraine</text>
+
+            <!-- Актори (фігурки людей) -->
+            <!-- Клієнт -->
+            <circle cx="100" cy="120" r="15" class="actor client"/>
+            <line x1="100" y1="135" x2="100" y2="180" class="actor client"/>
+            <line x1="80" y1="150" x2="120" y2="150" class="actor client"/>
+            <line x1="100" y1="180" x2="85" y2="210" class="actor client"/>
+            <line x1="100" y1="180" x2="115" y2="210" class="actor client"/>
+            <text x="100" y="230" class="actor-text client">Клієнт</text>
+
+            <!-- ERP-консультант -->
+            <circle cx="100" cy="320" r="15" class="actor consultant"/>
+            <line x1="100" y1="335" x2="100" y2="380" class="actor consultant"/>
+            <line x1="80" y1="350" x2="120" y2="350" class="actor consultant"/>
+            <line x1="100" y1="380" x2="85" y2="410" class="actor consultant"/>
+            <line x1="100" y1="380" x2="115" y2="410" class="actor consultant"/>
+            <text x="100" y="430" class="actor-text consultant">ERP-консультант</text>
+
+            <!-- ERP-розробник -->
+            <circle cx="100" cy="520" r="15" class="actor developer"/>
+            <line x1="100" y1="535" x2="100" y2="580" class="actor developer"/>
+            <line x1="80" y1="550" x2="120" y2="550" class="actor developer"/>
+            <line x1="100" y1="580" x2="85" y2="610" class="actor developer"/>
+            <line x1="100" y1="580" x2="115" y2="610" class="actor developer"/>
+            <text x="100" y="630" class="actor-text developer">ERP-розробник</text>
+
+            <!-- Microsoft -->
+            <circle cx="1200" cy="200" r="15" class="actor microsoft"/>
+            <line x1="1200" y1="215" x2="1200" y2="260" class="actor microsoft"/>
+            <line x1="1180" y1="230" x2="1220" y2="230" class="actor microsoft"/>
+            <line x1="1200" y1="260" x2="1185" y2="290" class="actor microsoft"/>
+            <line x1="1200" y1="260" x2="1215" y2="290" class="actor microsoft"/>
+            <text x="1200" y="310" class="actor-text microsoft">Microsoft</text>
+
+            <!-- Адміністративний персонал -->
+            <circle cx="1200" cy="450" r="15" class="actor admin"/>
+            <line x1="1200" y1="465" x2="1200" y2="510" class="actor admin"/>
+            <line x1="1180" y1="480" x2="1220" y2="480" class="actor admin"/>
+            <line x1="1200" y1="510" x2="1185" y2="540" class="actor admin"/>
+            <line x1="1200" y1="510" x2="1215" y2="540" class="actor admin"/>
+            <text x="1200" y="560" class="actor-text admin">Адміністративний</text>
+            <text x="1200" y="575" class="actor-text admin">персонал</text>
+
+            <!-- Прецеденти (овали) -->
+            <!-- Лівий стовпець -->
+            <ellipse cx="320" cy="120" rx="85" ry="25" class="usecase"/>
+            <text x="320" y="115" class="text">Замовити впровадження</text>
+            <text x="320" y="130" class="text">ERP</text>
+
+            <ellipse cx="320" cy="190" rx="75" ry="25" class="usecase"/>
+            <text x="320" y="185" class="text">Налаштувати</text>
+            <text x="320" y="200" class="text">Business Central</text>
+
+            <ellipse cx="320" cy="260" rx="75" ry="25" class="usecase"/>
+            <text x="320" y="255" class="text">Провести навчання</text>
+            <text x="320" y="270" class="text">клієнтів</text>
+
+            <ellipse cx="320" cy="330" rx="75" ry="25" class="usecase"/>
+            <text x="320" y="325" class="text">Провести</text>
+            <text x="320" y="340" class="text">тренінги</text>
+
+            <ellipse cx="320" cy="400" rx="75" ry="25" class="usecase"/>
+            <text x="320" y="395" class="text">Управляти</text>
+            <text x="320" y="410" class="text">проєктами</text>
+
+            <ellipse cx="320" cy="470" rx="80" ry="25" class="usecase"/>
+            <text x="320" y="465" class="text">Перевести систему</text>
+            <text x="320" y="480" class="text">українською</text>
+
+            <!-- Середній стовпець -->
+            <ellipse cx="520" cy="120" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="115" class="text">Провести аналіз</text>
+            <text x="520" y="130" class="text">бізнес-процесів</text>
+
+            <ellipse cx="520" cy="190" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="185" class="text">Створити тестове</text>
+            <text x="520" y="200" class="text">середовище</text>
+
+            <ellipse cx="520" cy="260" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="255" class="text">Інтегрувати</text>
+            <text x="520" y="270" class="text">з системами</text>
+
+            <ellipse cx="520" cy="330" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="325" class="text">Надати</text>
+            <text x="520" y="340" class="text">консультації</text>
+
+            <ellipse cx="520" cy="400" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="395" class="text">Ведення</text>
+            <text x="520" y="410" class="text">фінансів</text>
+
+            <ellipse cx="520" cy="470" rx="80" ry="25" class="usecase"/>
+            <text x="520" y="465" class="text">Звітність</text>
+            <text x="520" y="480" class="text">для Дія Сіті</text>
+
+            <!-- Правий стовпець -->
+            <ellipse cx="720" cy="120" rx="80" ry="25" class="usecase"/>
+            <text x="720" y="115" class="text">Отримати ліцензії</text>
+            <text x="720" y="130" class="text">Microsoft</text>
+
+            <ellipse cx="720" cy="190" rx="75" ry="25" class="usecase"/>
+            <text x="720" y="185" class="text">Розробити</text>
+            <text x="720" y="200" class="text">локалізацію</text>
+
+            <ellipse cx="720" cy="260" rx="80" ry="25" class="usecase"/>
+            <text x="720" y="255" class="text">Створити додатки</text>
+            <text x="720" y="270" class="text">для AppSource</text>
+
+            <ellipse cx="720" cy="330" rx="75" ry="25" class="usecase"/>
+            <text x="720" y="325" class="text">Підтримувати</text>
+            <text x="720" y="340" class="text">систему</text>
+
+            <ellipse cx="720" cy="400" rx="80" ry="25" class="usecase"/>
+            <text x="720" y="395" class="text">HR управління</text>
+            <text x="720" y="410" class="text">та маркетинг</text>
+
+            <ellipse cx="720" cy="470" rx="80" ry="25" class="usecase"/>
+            <text x="720" y="465" class="text">Міжнародна</text>
+            <text x="720" y="480" class="text">співпраця</text>
+
+            <!-- З'єднання -->
+            <!-- Клієнт -->
+            <line x1="115" y1="120" x2="235" y2="120" class="connection client"/>
+            <line x1="115" y1="140" x2="235" y2="190" class="connection client"/>
+            <line x1="115" y1="160" x2="235" y2="260" class="connection client"/>
+
+            <!-- ERP-консультант -->
+            <line x1="115" y1="320" x2="235" y2="190" class="connection consultant"/>
+            <line x1="115" y1="300" x2="235" y2="260" class="connection consultant"/>
+            <line x1="115" y1="340" x2="235" y2="330" class="connection consultant"/>
+            <line x1="115" y1="360" x2="235" y2="400" class="connection consultant"/>
+            <line x1="150" y1="320" x2="435" y2="120" class="connection consultant"/>
+            <line x1="150" y1="340" x2="435" y2="190" class="connection consultant"/>
+            <line x1="150" y1="360" x2="435" y2="330" class="connection consultant"/>
+
+            <!-- ERP-розробник -->
+            <line x1="115" y1="520" x2="235" y2="470" class="connection developer"/>
+            <line x1="150" y1="520" x2="435" y2="260" class="connection developer"/>
+            <line x1="150" y1="500" x2="635" y2="190" class="connection developer"/>
+            <line x1="150" y1="480" x2="635" y2="260" class="connection developer"/>
+
+            <!-- Microsoft -->
+            <line x1="1115" y1="200" x2="805" y2="120" class="connection microsoft"/>
+            <line x1="1115" y1="220" x2="805" y2="190" class="connection microsoft"/>
+            <line x1="1115" y1="240" x2="805" y2="260" class="connection microsoft"/>
+
+            <!-- Адміністративний персонал -->
+            <line x1="1115" y1="450" x2="805" y2="400" class="connection admin"/>
+            <line x1="1115" y1="470" x2="805" y2="470" class="connection admin"/>
+            <line x1="1100" y1="430" x2="605" y2="400" class="connection admin"/>
+            <line x1="1100" y1="410" x2="605" y2="470" class="connection admin"/>
+        </svg>
+
+        <div class="legend">
+            <h3>Легенда</h3>
+            <div class="legend-item">
+                <span class="legend-color client-color"></span>
+                <strong>Клієнт</strong> - замовляє послуги ERP впровадження
+            </div>
+            <div class="legend-item">
+                <span class="legend-color consultant-color"></span>
+                <strong>ERP-консультант</strong> - аналізує процеси, налаштовує систему
+            </div>
+            <div class="legend-item">
+                <span class="legend-color developer-color"></span>
+                <strong>ERP-розробник</strong> - створює додатки, інтеграції, локалізації
+            </div>
+            <div class="legend-item">
+                <span class="legend-color microsoft-color"></span>
+                <strong>Microsoft</strong> - надає ліцензії та технічну підтримку
+            </div>
+            <div class="legend-item">
+                <span class="legend-color admin-color"></span>
+                <strong>Адміністративний персонал</strong> - управління, фінанси, HR, маркетинг
+            </div>
+        </div>
+    </div>
+</body>
+</html>
