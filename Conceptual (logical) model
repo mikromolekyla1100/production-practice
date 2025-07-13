@@ -1,0 +1,244 @@
+erDiagram
+    SECURITY_COMPANY {
+        int company_id PK
+        string company_name
+        string legal_status
+        date creation_date
+        boolean is_certified
+        int cybersecurity_specialist_count
+        decimal annual_budget
+        decimal incident_response_fund
+        datetime created_at
+        datetime updated_at
+    }
+
+    CYBER_DEPARTMENT {
+        int department_id PK
+        string department_name
+        string function_area
+        int specialist_count
+        int company_id FK
+        int lead_specialist_id FK
+        datetime created_at
+        datetime updated_at
+    }
+
+    SPECIALIST {
+        int specialist_id PK
+        string first_name
+        string last_name
+        string role
+        int department_id FK
+        date hire_date
+        decimal salary
+        string employment_type
+        string cert_level
+        int experience_years
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+
+    CLIENT {
+        int client_id PK
+        string organization_name
+        string sector
+        string country
+        string contact_person
+        string email
+        string phone
+        string organization_size
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+
+    INCIDENT {
+        int incident_id PK
+        string incident_title
+        int client_id FK
+        date detection_date
+        date resolution_date
+        string severity
+        decimal cost
+        string incident_type
+        string region
+        text description
+        datetime created_at
+        datetime updated_at
+    }
+
+    SECURITY_SERVICE {
+        int service_id PK
+        string service_name
+        string category
+        text description
+        decimal base_price
+        int estimated_duration_hours
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+
+    RESPONSE_CONTRACT {
+        int contract_id PK
+        string contract_code
+        int client_id FK
+        date start_date
+        date end_date
+        decimal contract_value
+        string contract_model
+        string status
+        string currency
+        datetime created_at
+        datetime updated_at
+    }
+
+    THREAT_LICENSE {
+        int license_id PK
+        string license_type
+        string system_id
+        decimal cost
+        int validity_period
+        int incident_id FK
+        date purchase_date
+        date expiry_date
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+
+    SECURITY_TOOL {
+        int tool_id PK
+        string tool_name
+        string vendor_id
+        string version
+        date deployment_date
+        int usage_count
+        decimal rating
+        text description
+        decimal price
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+
+    TRAINING {
+        int training_id PK
+        string topic
+        int duration_hours
+        int participants_count
+        int trainer_id FK
+        date training_date
+        int client_id FK
+        string format
+        decimal cost
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    SECURITY_SERVER {
+        int server_id PK
+        string purpose
+        string provider
+        string specs
+        decimal monthly_cost
+        int incident_id FK
+        date setup_date
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+
+    INCIDENT_REPORT {
+        int report_id PK
+        string report_type
+        string report_title
+        date creation_date
+        int author_id FK
+        int incident_id FK
+        text content
+        string file_path
+        boolean is_confidential
+        datetime created_at
+        datetime updated_at
+    }
+
+    INCIDENT_SPECIALIST {
+        int incident_specialist_id PK
+        int incident_id FK
+        int specialist_id FK
+        int hours_allocated
+        string role
+        date start_date
+        date end_date
+        decimal hourly_rate
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+
+    INCIDENT_SERVICE {
+        int incident_service_id PK
+        int incident_id FK
+        int service_id FK
+        int quantity
+        decimal unit_price
+        decimal total_price
+        date delivery_date
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    CONTRACT_SERVICE {
+        int contract_service_id PK
+        int contract_id FK
+        int service_id FK
+        int quantity
+        decimal unit_price
+        decimal total_price
+        string delivery_terms
+        datetime created_at
+        datetime updated_at
+    }
+
+    INCIDENT_TOOL {
+        int incident_tool_id PK
+        int incident_id FK
+        int tool_id FK
+        date implementation_date
+        string configuration_level
+        boolean is_customized
+        datetime created_at
+        datetime updated_at
+    }
+
+    %% Зв’язки
+    SECURITY_COMPANY ||--o{ CYBER_DEPARTMENT : "має"
+    CYBER_DEPARTMENT ||--o{ SPECIALIST : "включає"
+    SPECIALIST ||--o| CYBER_DEPARTMENT : "очолює"
+
+    CLIENT ||--o{ INCIDENT : "звітує"
+    CLIENT ||--o{ RESPONSE_CONTRACT : "укладає"
+    CLIENT ||--o{ TRAINING : "навчається"
+
+    INCIDENT ||--o{ THREAT_LICENSE : "ліцензує"
+    INCIDENT ||--o{ SECURITY_SERVER : "обслуговує"
+    INCIDENT ||--o{ INCIDENT_REPORT : "описує"
+
+    SPECIALIST ||--o{ TRAINING : "проводить"
+    SPECIALIST ||--o{ INCIDENT_REPORT : "створює"
+
+    INCIDENT ||--o{ INCIDENT_SPECIALIST : "залучає"
+    SPECIALIST ||--o{ INCIDENT_SPECIALIST : "участь у"
+
+    INCIDENT ||--o{ INCIDENT_SERVICE : "передбачає"
+    SECURITY_SERVICE ||--o{ INCIDENT_SERVICE : "надається"
+
+    RESPONSE_CONTRACT ||--o{ CONTRACT_SERVICE : "включає"
+    SECURITY_SERVICE ||--o{ CONTRACT_SERVICE : "використовується"
+
+    INCIDENT ||--o{ INCIDENT_TOOL : "використовує"
+    SECURITY_TOOL ||--o{ INCIDENT_TOOL : "застосовується"
