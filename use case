@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Діаграма прецедентів Кіберполіції</title>
+    <title>Діаграма прецедентів Кіберполіції України</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@
             background-color: #f5f5f5;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             padding: 20px;
@@ -22,278 +22,301 @@
             text-align: center;
             color: #333;
             margin-bottom: 10px;
-            font-size: 20px;
+            font-size: 24px;
         }
-        h2 {
+        .subtitle {
             text-align: center;
             color: #666;
             margin-bottom: 30px;
             font-size: 16px;
         }
+        .legend {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #495057;
+            font-size: 16px;
+        }
+        .legend-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .citizen-color { background: #2196F3; }
+        .investigator-color { background: #4CAF50; }
+        .analyst-color { background: #F44336; }
+        .prosecutor-color { background: #9C27B0; }
+        .admin-color { background: #FF9800; }
+        
         svg {
             width: 100%;
-            height: 650px;
+            height: 700px;
             border: 2px dashed #999;
-            border-radius: 10px;
+            border-radius: 5px;
             background: white;
         }
+        
         .actor {
             stroke-width: 2;
-        }
-        .usecase {
-            stroke-width: 2;
-        }
-        .system-border {
             fill: none;
-            stroke: #999;
-            stroke-width: 2;
-            stroke-dasharray: 10,5;
         }
+        .actor.citizen { stroke: #2196F3; }
+        .actor.investigator { stroke: #4CAF50; }
+        .actor.analyst { stroke: #F44336; }
+        .actor.prosecutor { stroke: #9C27B0; }
+        .actor.admin { stroke: #FF9800; }
+        
+        .usecase {
+            fill: #f0f0f0;
+            stroke: #666;
+            stroke-width: 1;
+        }
+        
+        .system-boundary {
+            fill: none;
+            stroke: #333;
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+        }
+        
         .text {
             font-size: 11px;
             text-anchor: middle;
             dominant-baseline: middle;
             fill: #333;
         }
+        
         .actor-text {
             font-size: 12px;
             font-weight: bold;
             text-anchor: middle;
             dominant-baseline: middle;
         }
+        .actor-text.citizen { fill: #2196F3; }
+        .actor-text.investigator { fill: #4CAF50; }
+        .actor-text.analyst { fill: #F44336; }
+        .actor-text.prosecutor { fill: #9C27B0; }
+        .actor-text.admin { fill: #FF9800; }
+        
         .title-text {
             font-size: 14px;
             font-weight: bold;
+            fill: #333;
             text-anchor: middle;
-            fill: #333;
         }
-        .subtitle-text {
-            font-size: 12px;
-            text-anchor: middle;
-            fill: #666;
+        
+        .connection {
+            stroke-width: 1.5;
+            fill: none;
         }
-        .legend-text {
-            font-size: 11px;
-            text-anchor: start;
-            fill: #333;
-        }
-        .legend-title {
-            font-size: 12px;
-            font-weight: bold;
-            text-anchor: start;
-            fill: #333;
-        }
-        .arrow {
+        .connection.citizen { stroke: #2196F3; }
+        .connection.investigator { stroke: #4CAF50; }
+        .connection.analyst { stroke: #F44336; }
+        .connection.prosecutor { stroke: #9C27B0; }
+        .connection.admin { stroke: #FF9800; }
+        
+        .stick-figure {
             stroke-width: 2;
             fill: none;
-            marker-end: url(#arrowhead);
         }
-        .blue-line { stroke: #2196F3; }
-        .green-line { stroke: #4CAF50; }
-        .red-line { stroke: #F44336; }
-        .purple-line { stroke: #9C27B0; }
-        .orange-line { stroke: #FF9800; }
-        
-        .blue-actor { fill: #E3F2FD; stroke: #2196F3; }
-        .green-actor { fill: #E8F5E8; stroke: #4CAF50; }
-        .red-actor { fill: #FFEBEE; stroke: #F44336; }
-        .purple-actor { fill: #F3E5F5; stroke: #9C27B0; }
-        .orange-actor { fill: #FFF3E0; stroke: #FF9800; }
-        
-        .usecase-fill { fill: #F5F5F5; stroke: #757575; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Діаграма прецедентів - Кіберполіція</h1>
-        <h2>Система боротьби з кіберзлочинністю</h2>
+        <h1>Діаграма прецедентів - Кіберполіція України</h1>
+        <p class="subtitle">Система боротьби з кіберзлочинністю</p>
 
-        <svg viewBox="0 0 1100 600">
-            <!-- Визначення маркерів стрілок -->
-            <defs>
-                <marker id="arrowhead" markerWidth="8" markerHeight="6" 
-                        refX="7" refY="3" orient="auto">
-                    <polygon points="0 0, 8 3, 0 6" fill="#666" />
-                </marker>
-            </defs>
+        <svg viewBox="0 0 1300 650">
+            <!-- Межі системи -->
+            <rect x="200" y="50" width="900" height="500" class="system-boundary"/>
+            <text x="650" y="35" class="title-text">Система Кіберполіції України</text>
 
-            <!-- Заголовки -->
-            <text x="550" y="25" class="title-text">Діаграма прецедентів - Кіберполіція</text>
-            <text x="550" y="45" class="subtitle-text">Система боротьби з кіберзлочинністю</text>
-
-            <!-- Система (пунктирна рамка) -->
-            <rect x="200" y="70" width="700" height="450" rx="10" class="system-border"/>
-            <text x="550" y="90" class="subtitle-text">Система Кіберполіції</text>
-
-            <!-- Актори (ліворуч) -->
+            <!-- Актори (фігурки людей) -->
             <!-- Громадянин -->
-            <ellipse cx="100" cy="150" rx="40" ry="20" class="blue-actor actor"/>
-            <text x="100" y="150" class="actor-text blue-line">Громадянин</text>
-            <line x1="100" y1="170" x2="100" y2="190" class="blue-line" stroke-width="2"/>
-            <line x1="85" y1="185" x2="115" y2="185" class="blue-line" stroke-width="2"/>
-            <line x1="85" y1="185" x2="85" y2="200" class="blue-line" stroke-width="2"/>
-            <line x1="115" y1="185" x2="115" y2="200" class="blue-line" stroke-width="2"/>
+            <circle cx="100" cy="120" r="15" class="actor citizen"/>
+            <line x1="100" y1="135" x2="100" y2="180" class="actor citizen"/>
+            <line x1="80" y1="150" x2="120" y2="150" class="actor citizen"/>
+            <line x1="100" y1="180" x2="85" y2="210" class="actor citizen"/>
+            <line x1="100" y1="180" x2="115" y2="210" class="actor citizen"/>
+            <text x="100" y="230" class="actor-text citizen">Громадянин</text>
 
-            <!-- Кіберслідчий -->
-            <ellipse cx="100" cy="280" rx="40" ry="20" class="green-actor actor"/>
-            <text x="100" y="280" class="actor-text green-line">Кіберслідчий</text>
-            <line x1="100" y1="300" x2="100" y2="320" class="green-line" stroke-width="2"/>
-            <line x1="85" y1="315" x2="115" y2="315" class="green-line" stroke-width="2"/>
-            <line x1="85" y1="315" x2="85" y2="330" class="green-line" stroke-width="2"/>
-            <line x1="115" y1="315" x2="115" y2="330" class="green-line" stroke-width="2"/>
+            <!-- Слідчий -->
+            <circle cx="100" cy="320" r="15" class="actor investigator"/>
+            <line x1="100" y1="335" x2="100" y2="380" class="actor investigator"/>
+            <line x1="80" y1="350" x2="120" y2="350" class="actor investigator"/>
+            <line x1="100" y1="380" x2="85" y2="410" class="actor investigator"/>
+            <line x1="100" y1="380" x2="115" y2="410" class="actor investigator"/>
+            <text x="100" y="430" class="actor-text investigator">Слідчий</text>
 
-            <!-- Кіберекспрет -->
-            <ellipse cx="100" cy="410" rx="40" ry="20" class="red-actor actor"/>
-            <text x="100" y="410" class="actor-text red-line">Кіберексперт</text>
-            <line x1="100" y1="430" x2="100" y2="450" class="red-line" stroke-width="2"/>
-            <line x1="85" y1="445" x2="115" y2="445" class="red-line" stroke-width="2"/>
-            <line x1="85" y1="445" x2="85" y2="460" class="red-line" stroke-width="2"/>
-            <line x1="115" y1="445" x2="115" y2="460" class="red-line" stroke-width="2"/>
+            <!-- Кіберфорензик -->
+            <circle cx="100" cy="520" r="15" class="actor analyst"/>
+            <line x1="100" y1="535" x2="100" y2="580" class="actor analyst"/>
+            <line x1="80" y1="550" x2="120" y2="550" class="actor analyst"/>
+            <line x1="100" y1="580" x2="85" y2="610" class="actor analyst"/>
+            <line x1="100" y1="580" x2="115" y2="610" class="actor analyst"/>
+            <text x="100" y="630" class="actor-text analyst">Кіберфорензик</text>
 
-            <!-- Актори (праворуч) -->
-            <!-- Прокуратура -->
-            <ellipse cx="1000" cy="200" rx="40" ry="20" class="purple-actor actor"/>
-            <text x="1000" y="200" class="actor-text purple-line">Прокуратура</text>
-            <line x1="1000" y1="220" x2="1000" y2="240" class="purple-line" stroke-width="2"/>
-            <line x1="985" y1="235" x2="1015" y2="235" class="purple-line" stroke-width="2"/>
-            <line x1="985" y1="235" x2="985" y2="250" class="purple-line" stroke-width="2"/>
-            <line x1="1015" y1="235" x2="1015" y2="250" class="purple-line" stroke-width="2"/>
+            <!-- Прокурор -->
+            <circle cx="1200" cy="200" r="15" class="actor prosecutor"/>
+            <line x1="1200" y1="215" x2="1200" y2="260" class="actor prosecutor"/>
+            <line x1="1180" y1="230" x2="1220" y2="230" class="actor prosecutor"/>
+            <line x1="1200" y1="260" x2="1185" y2="290" class="actor prosecutor"/>
+            <line x1="1200" y1="260" x2="1215" y2="290" class="actor prosecutor"/>
+            <text x="1200" y="310" class="actor-text prosecutor">Прокурор</text>
 
-            <!-- Суд -->
-            <ellipse cx="1000" cy="350" rx="40" ry="20" class="orange-actor actor"/>
-            <text x="1000" y="350" class="actor-text orange-line">Суд</text>
-            <line x1="1000" y1="370" x2="1000" y2="390" class="orange-line" stroke-width="2"/>
-            <line x1="985" y1="385" x2="1015" y2="385" class="orange-line" stroke-width="2"/>
-            <line x1="985" y1="385" x2="985" y2="400" class="orange-line" stroke-width="2"/>
-            <line x1="1015" y1="385" x2="1015" y2="400" class="orange-line" stroke-width="2"/>
+            <!-- Адміністратор -->
+            <circle cx="1200" cy="450" r="15" class="actor admin"/>
+            <line x1="1200" y1="465" x2="1200" y2="510" class="actor admin"/>
+            <line x1="1180" y1="480" x2="1220" y2="480" class="actor admin"/>
+            <line x1="1200" y1="510" x2="1185" y2="540" class="actor admin"/>
+            <line x1="1200" y1="510" x2="1215" y2="540" class="actor admin"/>
+            <text x="1200" y="560" class="actor-text admin">Адміністратор</text>
 
-            <!-- Прецеденти (овали всередині системи) -->
-            <!-- Верхній рядок -->
-            <ellipse cx="320" cy="140" rx="60" ry="25" class="usecase-fill usecase"/>
-            <text x="320" y="135" class="text">Подати заяву</text>
-            <text x="320" y="148" class="text">про кіберзлочин</text>
+            <!-- Прецеденти (овали) -->
+            <!-- Лівий стовпець -->
+            <ellipse cx="320" cy="120" rx="85" ry="25" class="usecase"/>
+            <text x="320" y="115" class="text">Подати заяву про</text>
+            <text x="320" y="130" class="text">кіберзлочин</text>
 
-            <ellipse cx="480" cy="140" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="480" y="135" class="text">Реєстрація</text>
-            <text x="480" y="148" class="text">звернення</text>
+            <ellipse cx="320" cy="190" rx="75" ry="25" class="usecase"/>
+            <text x="320" y="185" class="text">Провести огляд</text>
+            <text x="320" y="200" class="text">місця події</text>
 
-            <ellipse cx="640" cy="140" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="640" y="135" class="text">Перевірка</text>
-            <text x="640" y="148" class="text">інформації</text>
+            <ellipse cx="320" cy="260" rx="75" ry="25" class="usecase"/>
+            <text x="320" y="255" class="text">Опитати</text>
+            <text x="320" y="270" class="text">свідків</text>
 
-            <ellipse cx="800" cy="140" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="800" y="135" class="text">Відкриття</text>
-            <text x="800" y="148" class="text">провадження</text>
+            <ellipse cx="320" cy="330" rx="75" ry="25" class="usecase"/>
+            <text x="320" y="325" class="text">Провести</text>
+            <text x="320" y="340" class="text">допити</text>
 
-            <!-- Другий рядок -->
-            <ellipse cx="320" cy="210" rx="60" ry="25" class="usecase-fill usecase"/>
-            <text x="320" y="205" class="text">Збір цифрових</text>
-            <text x="320" y="218" class="text">доказів</text>
+            <ellipse cx="320" cy="400" rx="75" ry="25" class="usecase"/>
+            <text x="320" y="395" class="text">Координувати</text>
+            <text x="320" y="410" class="text">слідство</text>
 
-            <ellipse cx="480" cy="210" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="480" y="205" class="text">Аналіз</text>
-            <text x="480" y="218" class="text">мережевого трафіку</text>
+            <ellipse cx="320" cy="470" rx="80" ry="25" class="usecase"/>
+            <text x="320" y="465" class="text">Проаналізувати</text>
+            <text x="320" y="480" class="text">цифрові докази</text>
 
-            <ellipse cx="640" cy="210" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="640" y="205" class="text">Блокування</text>
-            <text x="640" y="218" class="text">ресурсів</text>
+            <!-- Середній стовпець -->
+            <ellipse cx="520" cy="120" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="115" class="text">Відкрити кримінальне</text>
+            <text x="520" y="130" class="text">провадження</text>
 
-            <ellipse cx="800" cy="210" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="800" y="205" class="text">Міжнародна</text>
-            <text x="800" y="218" class="text">співпраця</text>
+            <ellipse cx="520" cy="190" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="185" class="text">Збирати та</text>
+            <text x="520" y="200" class="text">аналізувати докази</text>
 
-            <!-- Третій рядок -->
-            <ellipse cx="320" cy="280" rx="60" ry="25" class="usecase-fill usecase"/>
-            <text x="320" y="275" class="text">Слідчі дії</text>
-            <text x="320" y="288" class="text">в кіберпросторі</text>
+            <ellipse cx="520" cy="260" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="255" class="text">Проводити</text>
+            <text x="520" y="270" class="text">обшуки</text>
 
-            <ellipse cx="480" cy="280" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="480" y="275" class="text">Затримання</text>
-            <text x="480" y="288" class="text">підозрюваних</text>
+            <ellipse cx="520" cy="330" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="325" class="text">Затримувати</text>
+            <text x="520" y="340" class="text">підозрюваних</text>
 
-            <ellipse cx="640" cy="280" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="640" y="275" class="text">Складання</text>
-            <text x="640" y="288" class="text">обвинувачення</text>
+            <ellipse cx="520" cy="400" rx="75" ry="25" class="usecase"/>
+            <text x="520" y="395" class="text">Міжнародне</text>
+            <text x="520" y="410" class="text">співробітництво</text>
 
-            <ellipse cx="800" cy="280" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="800" y="275" class="text">Передача</text>
-            <text x="800" y="288" class="text">до суду</text>
+            <ellipse cx="520" cy="470" rx="80" ry="25" class="usecase"/>
+            <text x="520" y="465" class="text">Відновлення</text>
+            <text x="520" y="480" class="text">даних</text>
 
-            <!-- Четвертий рядок -->
-            <ellipse cx="320" cy="350" rx="60" ry="25" class="usecase-fill usecase"/>
-            <text x="320" y="345" class="text">Превентивні</text>
-            <text x="320" y="358" class="text">заходи</text>
+            <!-- Правий стовпець -->
+            <ellipse cx="720" cy="120" rx="80" ry="25" class="usecase"/>
+            <text x="720" y="115" class="text">Схвалити</text>
+            <text x="720" y="130" class="text">обвинувальний акт</text>
 
-            <ellipse cx="480" cy="350" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="480" y="345" class="text">Кібербезпека</text>
-            <text x="480" y="358" class="text">населення</text>
+            <ellipse cx="720" cy="190" rx="75" ry="25" class="usecase"/>
+            <text x="720" y="185" class="text">Моніторинг</text>
+            <text x="720" y="200" class="text">кіберзагроз</text>
 
-            <ellipse cx="640" cy="350" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="640" y="345" class="text">Навчання</text>
-            <text x="640" y="358" class="text">кадрів</text>
+            <ellipse cx="720" cy="260" rx="80" ry="25" class="usecase"/>
+            <text x="720" y="255" class="text">Технічна</text>
+            <text x="720" y="270" class="text">експертиза</text>
 
-            <ellipse cx="800" cy="350" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="800" y="345" class="text">Моніторинг</text>
-            <text x="800" y="358" class="text">загроз</text>
+            <ellipse cx="720" cy="330" rx="75" ry="25" class="usecase"/>
+            <text x="720" y="325" class="text">Кіберрозвідка</text>
+            <text x="720" y="340" class="text">та аналітика</text>
 
-            <!-- П'ятий рядок -->
-            <ellipse cx="400" cy="420" rx="60" ry="25" class="usecase-fill usecase"/>
-            <text x="400" y="415" class="text">Технічна</text>
-            <text x="400" y="428" class="text">експертиза</text>
+            <ellipse cx="720" cy="400" rx="80" ry="25" class="usecase"/>
+            <text x="720" y="395" class="text">Управління</text>
+            <text x="720" y="410" class="text">системою</text>
 
-            <ellipse cx="560" cy="420" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="560" y="415" class="text">Цифрова</text>
-            <text x="560" y="428" class="text">криміналістика</text>
+            <ellipse cx="720" cy="470" rx="80" ry="25" class="usecase"/>
+            <text x="720" y="465" class="text">Звітність</text>
+            <text x="720" y="480" class="text">та статистика</text>
 
-            <ellipse cx="720" cy="420" rx="55" ry="25" class="usecase-fill usecase"/>
-            <text x="720" y="415" class="text">Звітність</text>
-            <text x="720" y="428" class="text">та статистика</text>
+            <!-- З'єднання -->
+            <!-- Громадянин -->
+            <line x1="115" y1="120" x2="235" y2="120" class="connection citizen"/>
+            <line x1="115" y1="140" x2="235" y2="190" class="connection citizen"/>
+            <line x1="115" y1="160" x2="235" y2="260" class="connection citizen"/>
 
-            <!-- Стрілки від акторів до прецедентів -->
-            <!-- Від громадянина -->
-            <line x1="140" y1="150" x2="260" y2="140" class="arrow blue-line"/>
-            <line x1="140" y1="150" x2="420" y2="140" class="arrow blue-line"/>
+            <!-- Слідчий -->
+            <line x1="115" y1="320" x2="235" y2="190" class="connection investigator"/>
+            <line x1="115" y1="300" x2="235" y2="260" class="connection investigator"/>
+            <line x1="115" y1="340" x2="235" y2="330" class="connection investigator"/>
+            <line x1="115" y1="360" x2="235" y2="400" class="connection investigator"/>
+            <line x1="150" y1="320" x2="435" y2="120" class="connection investigator"/>
+            <line x1="150" y1="340" x2="435" y2="190" class="connection investigator"/>
+            <line x1="150" y1="360" x2="435" y2="260" class="connection investigator"/>
+            <line x1="150" y1="380" x2="435" y2="330" class="connection investigator"/>
+            <line x1="150" y1="400" x2="435" y2="400" class="connection investigator"/>
 
-            <!-- Від кіберслідчого -->
-            <line x1="140" y1="280" x2="260" y2="210" class="arrow green-line"/>
-            <line x1="140" y1="280" x2="260" y2="280" class="arrow green-line"/>
-            <line x1="140" y1="280" x2="420" y2="280" class="arrow green-line"/>
-            <line x1="140" y1="280" x2="580" y2="210" class="arrow green-line"/>
-            <line x1="140" y1="280" x2="580" y2="280" class="arrow green-line"/>
+            <!-- Кіберфорензик -->
+            <line x1="115" y1="520" x2="235" y2="470" class="connection analyst"/>
+            <line x1="150" y1="520" x2="435" y2="470" class="connection analyst"/>
+            <line x1="150" y1="500" x2="635" y2="190" class="connection analyst"/>
+            <line x1="150" y1="480" x2="635" y2="260" class="connection analyst"/>
+            <line x1="150" y1="460" x2="635" y2="330" class="connection analyst"/>
 
-            <!-- Від кіберексперта -->
-            <line x1="140" y1="410" x2="340" y2="420" class="arrow red-line"/>
-            <line x1="140" y1="410" x2="505" y2="420" class="arrow red-line"/>
-            <line x1="140" y1="410" x2="420" y2="350" class="arrow red-line"/>
-            <line x1="140" y1="410" x2="580" y2="350" class="arrow red-line"/>
+            <!-- Прокурор -->
+            <line x1="1115" y1="200" x2="805" y2="120" class="connection prosecutor"/>
+            <line x1="1115" y1="220" x2="805" y2="190" class="connection prosecutor"/>
+            <line x1="1115" y1="240" x2="805" y2="260" class="connection prosecutor"/>
 
-            <!-- До прокуратури -->
-            <line x1="855" y1="280" x2="960" y2="200" class="arrow purple-line"/>
-            <line x1="745" y1="280" x2="960" y2="200" class="arrow purple-line"/>
-
-            <!-- До суду -->
-            <line x1="855" y1="280" x2="960" y2="350" class="arrow orange-line"/>
-            <line x1="665" y1="420" x2="960" y2="350" class="arrow orange-line"/>
-
-            <!-- Легенда -->
-            <g transform="translate(220, 480)">
-                <text x="0" y="0" class="legend-title">Легенда</text>
-                <circle cx="10" cy="20" r="4" class="blue-line" fill="#2196F3"/>
-                <text x="20" y="25" class="legend-text">Громадянин - подає заяви про кіберзлочини</text>
-                
-                <circle cx="10" cy="40" r="4" class="green-line" fill="#4CAF50"/>
-                <text x="20" y="45" class="legend-text">Кіберслідчий - розслідує справи, збирає докази</text>
-                
-                <circle cx="10" cy="60" r="4" class="red-line" fill="#F44336"/>
-                <text x="20" y="65" class="legend-text">Кіберексперт - проводить технічну експертизу</text>
-                
-                <circle cx="400" cy="20" r="4" class="purple-line" fill="#9C27B0"/>
-                <text x="410" y="25" class="legend-text">Прокуратура - отримує справи для обвинувачення</text>
-                
-                <circle cx="400" cy="40" r="4" class="orange-line" fill="#FF9800"/>
-                <text x="410" y="45" class="legend-text">Суд - розглядає кримінальні справи</text>
-            </g>
+            <!-- Адміністратор -->
+            <line x1="1115" y1="450" x2="805" y2="400" class="connection admin"/>
+            <line x1="1115" y1="470" x2="805" y2="470" class="connection admin"/>
+            <line x1="1100" y1="430" x2="605" y2="400" class="connection admin"/>
         </svg>
+
+        <div class="legend">
+            <h3>Легенда</h3>
+            <div class="legend-item">
+                <span class="legend-color citizen-color"></span>
+                <strong>Громадянин</strong> - подає заяви про кіберзлочини
+            </div>
+            <div class="legend-item">
+                <span class="legend-color investigator-color"></span>
+                <strong>Слідчий</strong> - проводить розслідування кіберзлочинів
+            </div>
+            <div class="legend-item">
+                <span class="legend-color analyst-color"></span>
+                <strong>Кіберфорензик</strong> - аналізує цифрові докази та дані
+            </div>
+            <div class="legend-item">
+                <span class="legend-color prosecutor-color"></span>
+                <strong>Прокурор</strong> - наглядає за слідством та підтримує обвинувачення
+            </div>
+            <div class="legend-item">
+                <span class="legend-color admin-color"></span>
+                <strong>Адміністратор</strong> - управляє системою та звітністю
+            </div>
+        </div>
     </div>
 </body>
 </html>
